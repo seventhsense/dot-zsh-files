@@ -226,7 +226,7 @@ bindkey "^R" history-incremental-search-backward
 # その他
 # -------------------------------------
 # cdしたあとで、自動的に ls する
-function chpwd() { ls -1 }
+function chpwd() { ls }
 
 # iTerm2のタブ名を変更する
 function title {
@@ -236,6 +236,4 @@ function title {
 # zsh-completions
 fpath=(~/.zsh/zsh-completions/src $fpath)
 
-export PATH=$HOME/.nodebrew/current/bin:$PATH # add for nodebrew
-nodebrew use 0.11.14
 
