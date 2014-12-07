@@ -4,7 +4,7 @@ export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
 # エディタ
-export EDITOR=/usr/bin/vim
+export EDITOR=/usr/local/bin/vim
 
 # ページャ
 # export PAGER=/usr/local/bin/vimpager
@@ -50,7 +50,7 @@ fi
 # end VCS
 
 # PROMPT="$GREEN%m$DEFAULT:$CYAN%n$DEFAULT%% "
-PROMPT="$CYAN%n$DEFAULT@$CYAN%m$DEFAULT > "
+PROMPT="%B$GREEN%n$DEFAULT%b@%B$CYAN%m$DEFAULT%b "
 
 function _update_vcs_info_msg() {
     psvar=()
