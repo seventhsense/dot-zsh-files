@@ -143,6 +143,14 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 ## 入力しているコマンド名が間違っている場合にもしかして：を出す。
 setopt correct
 
+
+# -------------------------------------
+# 名前付きディレクトリ
+# -------------------------------------
+setopt CDABLE_VARS
+hash -d doc=/Users/seventh/Documents
+hash -d rails_apps=/Users/seventh/RailsApps
+
 # -------------------------------------
 # auto cd
 # -------------------------------------
@@ -170,9 +178,6 @@ setopt ignoreeof
 ## バックグラウンドジョブが終了したらすぐに知らせる。
 setopt no_tify
 
-## 直前と同じコマンドをヒストリに追加しない
-setopt hist_ignore_dups
-
 # -------------------------------------
 # パス
 # -------------------------------------
@@ -189,6 +194,14 @@ path=(
 # -------------------------------------
 # エイリアス
 # -------------------------------------
+
+# global alias
+alias -g G="| grep"
+alias -g ...='../..'
+alias -g ....='../../..'
+
+# suffix alias
+alias -s py=python
 
 # -n 行数表示, -I バイナリファイル無視, svn関係のファイルを無視
 alias grep="grep --color -n -I --exclude='*.svn-*' --exclude='entries' --exclude='*/cache/*'"
