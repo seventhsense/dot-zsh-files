@@ -98,7 +98,7 @@ compinit
 
 #補完に関するオプション
 setopt auto_param_slash      # ディレクトリ名の補完で末尾の / を自動的に付加し、次の補完に備える
-setopt mark_dirs             # ファイル名の展開でディレクトリにマッチした場合 末尾に / を付加
+# setopt mark_dirs             # ファイル名の展開でディレクトリにマッチした場合 末尾に / を付加
 setopt list_types            # 補完候補一覧でファイルの種別を識別マーク表示 (訳注:ls -F の記号)
 setopt auto_menu             # 補完キー連打で順に補完候補を自動で補完
 setopt auto_param_keys       # カッコの対応などを自動的に補完
@@ -223,47 +223,50 @@ alias tree="tree -NC" # N: 文字化け対策, C:色をつける
 # キーバインド
 # -------------------------------------
 
+bindkey -d
 bindkey -e
 
-function cdup() {
-   echo
-   cd ..
-   zle reset-prompt
-}
-zle -N cdup
-bindkey '^K' cdup
+bindkey '^f' forward-word
+bindkey '^b' backward-word
+bindkey '^d' kill-word
 
 bindkey "^R" history-incremental-search-backward
 
 # -------------------------------------
-# その他
+# contributions
 # -------------------------------------
-# cdしたあとで、自動的に ls する
-function chpwd() { ls }
-
-# iTerm2のタブ名を変更する
-function title {
-    echo -ne "\033]0;"$*"\007"
-  }
-
-# zsh-completions
-fpath=(~/.zsh/zsh-completions/src $fpath)
-
 # smart-insert-last-word
 autoload -Uz smart-insert-last-word
 # [a-zA-Z], /, \ のうち少なくとも1文字を含む長さ2以上の単語
 zstyle :insert-last-word match '*([[:alpha:]/\\]?|?[[:alpha:]/\\])*'
 zle -N insert-last-word smart-insert-last-word
 
-# zsh-syntax-highlighting
-if [ -f ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
-source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
+# cdr
+# cdr, add-zsh-hook を有効にする
+autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
+add-zsh-hook chpwd chpwd_recent_dirs
+ 
+# cdr の設定
+zstyle ':completion:*' recent-dirs-insert both
+zstyle ':chpwd:*' recent-dirs-max 500
+zstyle ':chpwd:*' recent-dirs-default true
+zstyle ':chpwd:*' recent-dirs-file "$HOME/.cache/shell/chpwd-recent-dirs"
+zstyle ':chpwd:*' recent-dirs-pushd true
 
+# zmv
+autoload -Uz zmv
+alias zmv='noglob zmv -W'
+
+# -------------------------------------
+# antigen
+# -------------------------------------
+source ~/.zsh/antigen/antigen.zsh
+# zsh-completions
+antigen bundle zsh-users/zsh-completions
+# zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-syntax-highlighting
 # anyframe
-fpath=($HOME/.zsh/anyframe(N-/) $fpath)
-autoload -Uz anyframe-init
-anyframe-init
+antigen bundle mollifier/anyframe
 
 bindkey '^xb' anyframe-widget-cdr
 bindkey '^x^b' anyframe-widget-checkout-git-branch
@@ -286,19 +289,56 @@ bindkey '^x^i' anyframe-widget-insert-git-branch
 bindkey '^xf' anyframe-widget-insert-filename
 bindkey '^x^f' anyframe-widget-insert-filename
 
-# cdr
-# cdr, add-zsh-hook を有効にする
-autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
-add-zsh-hook chpwd chpwd_recent_dirs
- 
-# cdr の設定
-zstyle ':completion:*' recent-dirs-insert both
-zstyle ':chpwd:*' recent-dirs-max 500
-zstyle ':chpwd:*' recent-dirs-default true
-zstyle ':chpwd:*' recent-dirs-file "$HOME/.cache/shell/chpwd-recent-dirs"
-zstyle ':chpwd:*' recent-dirs-pushd true
+# k
+antigen bundle supercrabtree/k
+
+# pure
+# antigen bundle mafredri/zsh-async
+# antigen bundle sindresorhus/pure
+
+antigen apply
+# -------------------------------------
+# その他
+# -------------------------------------
+# cdしたあとで、自動的に ls する
+function chpwd() { ls }
+
+# iTerm2のタブ名を変更する
+function title {
+    echo -ne "\033]0;"$*"\007"
+  }
 
 # agvim
 function agvim () {
   vim $(ag $@ | peco --query "$LBUFFER" | awk -F : '{print "-c " $2 " " $1}')
 }
+
+# cdup
+function cdup() {
+   echo
+   cd ..
+   zle reset-prompt
+}
+zle -N cdup
+alias 'cd..'=cdup
+
+# peco find file
+function peco-find-file() {
+    if git rev-parse 2> /dev/null; then
+        source_files=$(git ls-files)
+    else
+        source_files=$(find . -type f)
+    fi
+    selected_files=$(echo $source_files | peco --prompt "[find file]")
+
+    result=''
+    for file in $selected_files; do
+        result="${result}$(echo $file | tr '\n' ' ')"
+    done
+
+    BUFFER="${BUFFER}${result}"
+    CURSOR=$#BUFFER
+    zle redisplay
+}
+zle -N peco-find-file
+bindkey '^Q' peco-find-file
