@@ -216,6 +216,47 @@ alias l1="ls -1"
 # tree
 alias tree="tree -NC" # N: 文字化け対策, C:色をつける
 
+# for rails alias
+
+alias devlog='tail -f log/development.log'
+alias prodlog='tail -f log/production.log'
+alias testlog='tail -f log/test.log'
+ 
+alias -g RED='RAILS_ENV=development'
+alias -g REP='RAILS_ENV=production'
+alias -g RET='RAILS_ENV=test'
+ 
+# Rails aliases
+alias rc='rails console'
+alias rd='rails destroy'
+alias rdb='rails dbconsole'
+alias rg='rails generate'
+alias rgm='rails generate migration'
+alias rp='rails plugin'
+alias ru='rails runner'
+alias rs='rails server -b 0.0.0.0'
+alias rsd='rails server -b 0.0.0.0 --debugger'
+alias rsp='rails server -b 0.0.0.0 --port'
+ 
+# Rake aliases
+alias rdm='rake db:migrate'
+alias rdms='rake db:migrate:status'
+alias rdr='rake db:rollback'
+alias rdc='rake db:create'
+alias rds='rake db:seed'
+alias rdd='rake db:drop'
+alias rdrs='rake db:reset'
+alias rdtc='rake db:test:clone'
+alias rdtp='rake db:test:prepare'
+alias rdmtc='rake db:migrate db:test:clone'
+alias rlc='rake log:clear'
+alias rn='rake notes'
+alias rr='rake routes'
+alias rrg='rake routes | grep'
+alias rt='rake test'
+alias rmd='rake middleware'
+alias rsts='rake stats'
+
 # vim
 # alias vim="/usr/local/bin/vim"
 
