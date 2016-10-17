@@ -207,8 +207,8 @@ alias -s py=python
 alias grep="grep --color -n -I --exclude='*.svn-*' --exclude='entries' --exclude='*/cache/*'"
 
 # ls
-alias ls="ls -G" # color for darwin
-# alias ls="ls --color" # color for linux
+# alias ls="ls -G" # color for darwin
+alias ls="ls --color" # color for linux
 alias l="ls -la"
 alias la="ls -la"
 alias l1="ls -1"
@@ -299,16 +299,26 @@ autoload -Uz zmv
 alias zmv='noglob zmv -W'
 
 # -------------------------------------
-# antigen
+# zgen
 # -------------------------------------
-source ~/.zsh/antigen/antigen.zsh
-# zsh-completions
-antigen bundle zsh-users/zsh-completions
-# zsh-syntax-highlighting
-antigen bundle zsh-users/zsh-syntax-highlighting
-# anyframe
-antigen bundle mollifier/anyframe
+source ~/.zgen/zgen.zsh
+ 
+if ! zgen saved; then
+  zgen load zsh-users/zsh-completions
+  zgen load zsh-users/zsh-syntax-highlighting
+  zgen load mollifier/anyframe
+  zgen load supercrabtree/k
+ 
+  # pure
+  # antigen bundle mafredri/zsh-async
+  # antigen bundle sindresorhus/pure
+ 
+  zgen save
+fi
 
+# -------------------------------------
+# anyframe
+# -------------------------------------
 bindkey '^xb' anyframe-widget-cdr
 bindkey '^x^b' anyframe-widget-checkout-git-branch
 
@@ -330,14 +340,6 @@ bindkey '^x^i' anyframe-widget-insert-git-branch
 bindkey '^xf' anyframe-widget-insert-filename
 bindkey '^x^f' anyframe-widget-insert-filename
 
-# k
-antigen bundle supercrabtree/k
-
-# pure
-# antigen bundle mafredri/zsh-async
-# antigen bundle sindresorhus/pure
-
-antigen apply
 # -------------------------------------
 # その他
 # -------------------------------------
@@ -383,3 +385,5 @@ function peco-find-file() {
 }
 zle -N peco-find-file
 bindkey '^Q' peco-find-file
+
+export PATH=$HOME/.nodebrew/current/bin:$PATH
