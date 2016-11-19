@@ -207,8 +207,14 @@ alias -s py=python
 alias grep="grep --color -n -I --exclude='*.svn-*' --exclude='entries' --exclude='*/cache/*'"
 
 # ls
-alias ls="ls -G" # color for darwin
-# alias ls="ls --color" # color for linux
+case ${OSTYPE} in
+  darwin*)
+    alias ls="ls -G" # color for darwin
+    ;;
+  linux*)
+    alias ls="ls --color" # color for linux
+    ;;
+esac
 alias l="ls -la"
 alias la="ls -la"
 alias l1="ls -1"
@@ -324,7 +330,6 @@ fi
 # -------------------------------------
 # anyframe
 # -------------------------------------
-
 bindkey '^xb' anyframe-widget-cdr
 bindkey '^x^b' anyframe-widget-checkout-git-branch
 
@@ -395,3 +400,4 @@ bindkey '^Q' peco-find-file
 # if type zprof > /dev/null 2>&1; then
   # zprof | less
 # fi
+export PATH=$HOME/.nodebrew/current/bin:$PATH
