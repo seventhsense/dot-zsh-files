@@ -314,6 +314,7 @@ if ! zgen saved; then
   zgen load zsh-users/zsh-syntax-highlighting
   zgen load mollifier/anyframe
   zgen load supercrabtree/k
+  zgen load b4b4r07/enhancd
  
   # pure
   # antigen bundle mafredri/zsh-async
