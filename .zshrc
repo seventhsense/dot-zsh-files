@@ -266,6 +266,10 @@ alias rsts='rake stats'
 # vim
 # alias vim="/usr/local/bin/vim"
 
+# jupyter notebook
+alias jn='jupyter notebook'
+alias ip='ipython'
+
 # -------------------------------------
 # キーバインド
 # -------------------------------------
@@ -294,21 +298,22 @@ autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
 add-zsh-hook chpwd chpwd_recent_dirs
  
 # cdr の設定
+zstyle ':completion:*' menu select
 zstyle ':completion:*' recent-dirs-insert both
-zstyle ':chpwd:*' recent-dirs-max 500
+zstyle ':chpwd:*' recent-dirs-max 20
 zstyle ':chpwd:*' recent-dirs-default true
 zstyle ':chpwd:*' recent-dirs-file "$HOME/.cache/shell/chpwd-recent-dirs"
 zstyle ':chpwd:*' recent-dirs-pushd true
 
 # zmv
 autoload -Uz zmv
-alias zmv='noglob zmv -W'
+# alias zmv='noglob zmv -W'
 
 # -------------------------------------
 # zgen
 # -------------------------------------
 source ~/.zgen/zgen.zsh
- 
+
 if ! zgen saved; then
   zgen load zsh-users/zsh-completions
   zgen load zsh-users/zsh-syntax-highlighting
@@ -319,7 +324,7 @@ if ! zgen saved; then
   # pure
   # antigen bundle mafredri/zsh-async
   # antigen bundle sindresorhus/pure
- 
+
   zgen save
 fi
 
@@ -393,4 +398,7 @@ function peco-find-file() {
 zle -N peco-find-file
 bindkey '^Q' peco-find-file
 
+# if type zprof > /dev/null 2>&1; then
+  # zprof | less
+# fi
 export PATH=$HOME/.nodebrew/current/bin:$PATH
