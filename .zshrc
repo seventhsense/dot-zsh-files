@@ -5,6 +5,7 @@ export LC_ALL=en_US.UTF-8
 
 # エディタ
 # export EDITOR=/usr/local/bin/vim
+export VISUAL=vim
 
 # ページャ
 # export PAGER=/usr/local/bin/vimpager
@@ -309,6 +310,11 @@ zstyle ':chpwd:*' recent-dirs-pushd true
 autoload -Uz zmv
 # alias zmv='noglob zmv -W'
 
+# コマンドをエディタで修正する
+autoload edit-command-line
+zle -N edit-command-line
+bindkey '^x^e' edit-command-line
+
 # -------------------------------------
 # zgen
 # -------------------------------------
@@ -402,3 +408,5 @@ bindkey '^Q' peco-find-file
   # zprof | less
 # fi
 export PATH=$HOME/.nodebrew/current/bin:$PATH
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
