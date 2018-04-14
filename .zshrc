@@ -266,6 +266,7 @@ alias rsts='rake stats'
 
 # vim
 # alias vim="/usr/local/bin/vim"
+alias v='vim'
 
 # jupyter notebook
 alias jn='jupyter notebook'
@@ -404,9 +405,9 @@ function peco-find-file() {
 zle -N peco-find-file
 bindkey '^Q' peco-find-file
 
+# Load specific settings
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local
+
 # if type zprof > /dev/null 2>&1; then
   # zprof | less
 # fi
-export PATH=$HOME/.nodebrew/current/bin:$PATH
-
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
